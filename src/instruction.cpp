@@ -12,7 +12,7 @@
 #ifndef INSTRUCTION_CPP
 #define INSTRUCTION_CPP
 
-#include "headers/instruction.h"
+#include "include/instruction.h"
 
 using namespace std;
 

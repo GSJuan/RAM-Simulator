@@ -4,19 +4,27 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
+
+#include "instruction.h"
+#include "tag.h"
 
 using namespace std;
 
 class Program {
+  private:
+    string fileName;
+    vector<Instruction> instructions;
+    vector<Tag> tags;
 
   public:
   Program();
   Program(string name);
   ~Program();
 
-  private:
-  ifstream program;
-  vector<string> instructions;
+  string getFileName();
+
+  int loadContent();
+
+  
 };
 #endif
