@@ -19,14 +19,14 @@ using namespace std;
 
 Tag::Tag() {
   tag = "";
-  line = 0;
-  column = 0;
+  absLine = 0;
+  relLine = 0;
 }
 
-Tag::Tag(string tag_, int line_, int column_) {
+Tag::Tag(string tag_, int absLine_, int relLine_) {
   tag = tag_;
-  line = line_;
-  column = column_;
+  absLine = absLine_;
+  relLine = relLine_;
 }
 
 Tag::~Tag() {}
@@ -35,22 +35,22 @@ string Tag::getTag() {
   return tag;
 }
 
-int Tag::getLine() {
-  return line;
+int Tag::getAbsLine() {
+  return absLine;
 }
 
-int Tag::getColumn() {
-  return column;
+int Tag::getRelLine() {
+  return relLine;
 }
 
 void Tag::modify(Tag new_tag) {
   tag = new_tag.getTag();
-  line = new_tag.getLine();
-  column = new_tag.getColumn();
+  absLine = new_tag.getAbsLine();
+  relLine = new_tag.getRelLine();
 }
 
 bool Tag::operator == (Tag& o) {
-  return ((getTag() == o.getTag()) && (getLine() == o.getLine()));
+  return ((getTag() == o.getTag()) && (getAbsLine() == o.getAbsLine()));
 }
 
 #endif

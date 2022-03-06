@@ -22,8 +22,8 @@ class Tag {
 
     private:
       string tag;
-      int line;
-      int column;
+      int absLine;
+      int relLine;
     
     public:
       Tag();
@@ -31,8 +31,8 @@ class Tag {
       ~Tag();
 
       string getTag();
-      int getLine();
-      int getColumn();
+      int getAbsLine();
+      int getRelLine();
 
       void modify(Tag new_tag);
       
