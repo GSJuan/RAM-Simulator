@@ -19,13 +19,14 @@
 Program::Program() {
   fileName = "ejemplosRAM/test1.ram";
   loadProgram();  
-  validateProgram();
+  if(!validateProgram()) exit(-1);
+
 }
 
 Program::Program(string file) {
   fileName = file;
   loadProgram();
-  validateProgram();  
+  if(!validateProgram()) exit(-1); 
 }
 
 Program::~Program() {

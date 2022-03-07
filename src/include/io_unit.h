@@ -27,13 +27,11 @@ class Tape {
      
   public:
     Tape();
+    Tape(string);
     ~Tape();
     
     int getTapeSize();
     string getFileName();
-    
-    //writes the value in the tape
-    void write(int value);
     
     virtual int load() = 0;
     friend ostream& operator<<(ostream& os, const Tape& dt);

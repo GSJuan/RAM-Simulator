@@ -38,7 +38,9 @@ class Alcu {
     InTape getInTape() { return inTape; }
     OutTape getOutTape() { return outTape; }
 
-    void updateInstruction() { currInst = program.getInstruction(pi); }
+    void updateInstruction();
+    void updateInstruction(int ip);
+
 
     void run();
     void printCurrentInstruction();
@@ -52,6 +54,7 @@ class Alcu {
     void add();
     void sub();
     void mul();
+    void div();
     void read();
     void write();
     void jump();

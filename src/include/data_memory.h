@@ -22,7 +22,7 @@ using namespace std;
 
 class Data {
   private:
-    vector<Register*> data;
+    vector<Register> data;
     
   public:
     Data();
@@ -34,6 +34,9 @@ class Data {
 
     void write(int value, int reg);
     void writeAccumulator(int value);
+
+    void allocate (int);
+
     friend ostream& operator<<(ostream& os, const Data& dt);
 };
 #endif

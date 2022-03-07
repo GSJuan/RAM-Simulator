@@ -24,6 +24,8 @@ class OutTape: public Tape {
     OutTape(string);
     ~OutTape();
 
+    void write(int);
+
     //dumps the tape contents into the file
     int load();
 };

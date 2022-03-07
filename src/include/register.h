@@ -23,13 +23,16 @@ class Register {
       int value;
     
     public:
-      Register() { value = EMPTY; }
-      Register(int newVal) { value = newVal; }
+      Register();
+      Register(int newVal);
       ~Register();
 
-      int getValue() { return value; }
-      void setValue(int newVal) { value = newVal; }
-      bool isEmpty() {return value == EMPTY; }
+      int getValue();
+      void setValue(int newVal);
+      bool isEmpty();
+
+      int getValue() const;
+      bool isEmpty() const;
 };
 
 #endif

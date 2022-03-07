@@ -32,6 +32,10 @@ InTape::~InTape() {
   fileName = "";
 }
 
+int InTape::getIndex() {
+  return index;
+}
+
 int InTape::load() {
   ifstream inputFile;
   int value;
@@ -48,6 +52,10 @@ int InTape::load() {
   }
   inputFile.close();
   return 0;
+}
+
+void InTape::write(int value) { 
+  tape.push_back(value); 
 }
 
 int InTape::readTape() {

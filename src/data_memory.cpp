@@ -17,7 +17,9 @@
 
 using namespace std;
 
-Data::Data() {}
+Data::Data() {
+  data.resize(10);
+}
 
 Data::Data(int size) {
   data.resize(size);
@@ -28,28 +30,36 @@ Data::~Data() {
 }
 
 int Data::read(int reg) {
-  return data[reg]->getValue();
+  allocate(reg);
+  return data[reg].getValue();
 }
 
 int Data::readAccumulator(){
-  return data[0]->getValue();
+  return data[0].getValue();
 }
 
 void Data::write(int value, int reg){
-  data[reg]->setValue(value);
+  allocate(reg);
+  data[reg].setValue(value);
 }
 
 void Data::writeAccumulator(int value){
-  data[0]->setValue(value);
+  data[0].setValue(value);
+}
+
+void Data::allocate(int value) {
+  if(data.size() - 1 < value) {
+    data.resize(value);
+  }
 }
 
 ostream& operator<<(ostream& os, const Data& memory) {
   for(int i = 0; i < memory.data.size(); i++){
     os << "R" << i << " = ";
-    if(memory.data[i]->isEmpty()) {
+    if(memory.data[i].isEmpty()) {
       os << "EMPTY"; 
     }
-    else os << memory.data[i]->getValue();
+    else os << memory.data[i].getValue();
     os << endl;
   }
   return os;

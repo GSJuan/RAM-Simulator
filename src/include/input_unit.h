@@ -27,11 +27,13 @@ class InTape: public Tape {
     InTape(string);
     ~InTape();
 
-    int getIndex() { return index; }
+    int getIndex();
 
     //dumps the file contents into the tape
     //returns 0 if succesful, -1 otherwise
     int load();
+
+    void write(int);
 
     int readTape();
 

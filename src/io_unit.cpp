@@ -17,7 +17,13 @@
 
 #include "include/io_unit.h"
 
-Tape::Tape(){};
+Tape::Tape(){
+  fileName = "";
+};
+
+Tape::Tape(string file) {
+  fileName = file;
+}
 
 Tape::~Tape(){};
 
@@ -28,11 +34,6 @@ int Tape::getTapeSize() {
 
 string Tape::getFileName() { 
   return fileName; 
-}
-
-//writes the value in the tape
-void Tape::write(int value) { 
-  tape.push_back(value); 
 }
 
 ostream& operator<<(ostream& os, const Tape& inputUnit) {

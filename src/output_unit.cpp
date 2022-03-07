@@ -29,6 +29,10 @@ OutTape::~OutTape() {
   fileName = "";
 }
 
+void OutTape::write(int value) { 
+  tape.push_back(value); 
+}
+
 int OutTape::load() {
   ofstream outputFile;
   int value;
