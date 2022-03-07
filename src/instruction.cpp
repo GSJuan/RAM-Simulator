@@ -46,11 +46,27 @@ string Instruction::getOp() {
   return op;
 }
 
+string Instruction::getOpcode() const{
+  return opcode;
+}
+
+string Instruction::getMode() const{
+  return mode;
+}
+
+string Instruction::getOp() const{
+  return op;
+}
+
 void Instruction::modify(Instruction new_instruction) {
   opcode = new_instruction.getOpcode();
   mode = new_instruction.getMode();
   op = new_instruction.getOp();
 }
 
+ostream& operator<<(ostream& os, const Instruction& ins) {
+  os << ins.getOpcode() << ins.getMode() << ins.getOp()<< endl;
+  return os;
+}
 
 #endif

@@ -14,28 +14,34 @@
 #define INSTRUCTION_H
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 #define NULL_VALUE "null";
 
 class Instruction {
-
     private:
-      string opcode;
-      string mode;
-      string op;
+      string opcode; // LOAD || ...
+      string mode; // * || = || " "
+      string op; // [0-9]+ 
     
     public:
       Instruction();
-      Instruction(string, string, string);
+      Instruction(string opcode, string mode, string op);
       ~Instruction();
 
       string getOpcode();
       string getMode();
       string getOp();
 
+      string getOpcode() const;
+      string getMode() const;
+      string getOp() const;
+
       void modify(Instruction new_instruction);
+
+      friend ostream& operator<<(ostream& os, const Instruction& dt);
 };
 
 #endif

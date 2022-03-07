@@ -1,3 +1,16 @@
+/*
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Diseño y análisis de algoritmos
+ *
+ * author: Juan García Santos
+ * date: 05/03/2022
+ * description: header file of a class that represents
+ * the program memory of a RAM
+ *
+ */
+
 #ifndef PROGRAM_MEMORY_H
 #define PROGRAM_MEMORY_H
 
@@ -16,7 +29,6 @@ class Program {
     string fileName;
     vector<Instruction> instructions;
     vector<Tag> tags;
-    int pc;
 
   public:
   //default constructor
@@ -30,9 +42,15 @@ class Program {
 
   //getter of file name
   string getFileName();
-
-  int getPc();
   
+  //returns a certain instruction
+  Instruction getInstruction(int);
+  
+  //return number of instructions
+  int getInstructionsSize();
+
+  int getTagRelativePosition(string);
+
   //Loads content from the file into program memory. 
   //Returns 0 for succes, -1 for error.
   int loadProgram();
@@ -59,5 +77,7 @@ class Program {
   //validates all the instructions that compose the program
   //return true if valid, false otherwise
   bool validateProgram();
+
+  friend ostream& operator<<(ostream& os, const Program& dt);
 };
 #endif

@@ -1,15 +1,29 @@
+/*
+ * Universidad de La Laguna
+ * Escuela Superior de Ingeniería y Tecnología
+ * Grado en Ingeniería Informática
+ * Diseño y análisis de algoritmos
+ *
+ * author: Juan García Santos
+ * date: 05/03/2022
+ * description: definition file of a class that represents
+ * the program memory of a RAM
+ *
+ */
+
+#ifndef PROGRAM_MEMORY_CPP
+#define PROGRAM_MEMORY_CPP
+
 #include "include/program_memory.h"
   
 Program::Program() {
   fileName = "ejemplosRAM/test1.ram";
-  pc = 0;
   loadProgram();  
   validateProgram();
 }
 
 Program::Program(string file) {
   fileName = file;
-  pc = 0;
   loadProgram();
   validateProgram();  
 }
@@ -24,8 +38,18 @@ string Program::getFileName() {
   return fileName;
 }
 
-int Program::getPc() {
-  return pc;
+Instruction Program::getInstruction(int i) {
+  return instructions[i];
+}
+
+int Program::getInstructionsSize() {
+  return instructions.size();
+}
+
+int Program::getTagRelativePosition(string tag) {
+  for (int i = 0; i < tags.size(); i++) {
+    if(tag == tags[i].getTag()) return tags[i].getRelLine();
+  }
 }
 
 int Program::loadProgram() {
@@ -73,8 +97,6 @@ string Program::parseTag(string line, int absLineNumber, int relLineNumber) {
     Tag newTag(tag, absLineNumber, relLineNumber);
     if (uniqueTag(newTag)) tags.push_back(newTag); 
     else cerr << endl << "ERROR: Tag " << newTag.getTag() << " already defined!! Ignoring it..." << endl;
-
-    cout << tag;
    
     //eliminamos la tag de la linea para dejar el resto
     line = line.substr(line.find_first_of(':') + 1); 
@@ -157,3 +179,22 @@ bool Program::validateProgram() {
   }
   return true;
 }
+
+ostream& operator<<(ostream& os, const Program& program) {
+  os << "Program Information:" << endl;
+  os << "Instructions: " << program.instructions.size() << endl;
+  os << "Tags: " << program.tags.size() << endl;
+  os << "Code: " << endl;
+  int tagIndex = 0;
+  for(int i = 0; i < program.instructions.size(); i++) {
+    os << "\t";
+    if(program.tags[tagIndex].getRelLine() == i) {
+      os << program.tags[tagIndex] << ":";
+      tagIndex++;
+    }
+    os << "\t" <<  program.instructions[i];
+  } 
+  return os;
+}
+
+#endif

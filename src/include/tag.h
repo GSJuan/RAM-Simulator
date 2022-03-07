@@ -15,11 +15,11 @@
 #define TAG_H
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 class Tag {
-
     private:
       string tag;
       int absLine;
@@ -34,9 +34,15 @@ class Tag {
       int getAbsLine();
       int getRelLine();
 
+      string getTag() const;
+      int getAbsLine() const;
+      int getRelLine() const;
+
       void modify(Tag new_tag);
       
       bool operator == (Tag&);
+
+      friend ostream& operator<<(ostream& os, const Tag& dt);
 };
 
 #endif

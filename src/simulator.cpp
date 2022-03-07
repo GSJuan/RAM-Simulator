@@ -1,6 +1,7 @@
-#include "include/program_memory.h"
+#include "include/alcu.h"
 
 int main() {
-  Program("ejemplosRAM/test1.ram");
+  Alcu ram;
+  ram.run();
   return 0;
 }

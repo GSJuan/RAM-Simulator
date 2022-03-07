@@ -43,6 +43,18 @@ int Tag::getRelLine() {
   return relLine;
 }
 
+string Tag::getTag() const {
+  return tag;
+}
+
+int Tag::getAbsLine() const {
+  return absLine;
+}
+
+int Tag::getRelLine() const {
+  return relLine;
+}
+
 void Tag::modify(Tag new_tag) {
   tag = new_tag.getTag();
   absLine = new_tag.getAbsLine();
@@ -51,6 +63,11 @@ void Tag::modify(Tag new_tag) {
 
 bool Tag::operator == (Tag& o) {
   return ((getTag() == o.getTag()) && (getAbsLine() == o.getAbsLine()));
+}
+
+ostream& operator<<(ostream& os, const Tag& tag) {
+  os << tag.getTag();
+  return os;
 }
 
 #endif
