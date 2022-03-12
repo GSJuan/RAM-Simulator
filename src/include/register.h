@@ -14,25 +14,23 @@
 #ifndef REGISTER_H
 #define REGISTER_H
 
-#define EMPTY 999999;
+#define EMPTY 999999
+
+#include <iostream>
 
 using namespace std;
 
 class Register {
-    private:
-      int value;
-    
     public:
       Register();
-      Register(int newVal);
       ~Register();
+      virtual int getValue() = 0;
+      virtual void setValue(int newVal) = 0;
+      virtual bool isEmpty() = 0;
 
-      int getValue();
-      void setValue(int newVal);
-      bool isEmpty();
-
-      int getValue() const;
-      bool isEmpty() const;
+      virtual int getValue() const = 0;
+      virtual bool isEmpty() const = 0;
+      virtual void print() = 0;
 };
 
 #endif

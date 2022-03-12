@@ -35,6 +35,8 @@ class Alcu {
     Alcu(string programFile, string inputFile, string outputFile, int debug);
     ~Alcu();
 
+    void print();
+
     Program getProgram() { return program; }
     Data getData() { return data; }
     InTape getInTape() { return inTape; }

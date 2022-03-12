@@ -35,13 +35,4 @@ int Tape::getTapeSize() {
 string Tape::getFileName() { 
   return fileName; 
 }
-
-ostream& operator<<(ostream& os, const Tape& inputUnit) {
-  os << "[";
-  for(int i = 0; i < inputUnit.tape.size(); i++) {
-    os << inputUnit.tape[i] << "|";
-  }
-  os << "]" << endl;
-  return os;
-}
 #endif

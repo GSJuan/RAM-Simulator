@@ -28,6 +28,7 @@ class InTape: public Tape {
     ~InTape();
 
     int getIndex();
+    int getIndex() const;
 
     //dumps the file contents into the tape
     //returns 0 if succesful, -1 otherwise
@@ -39,6 +40,8 @@ class InTape: public Tape {
 
     //moves forward the tape head
     void moveHead();
+
+    friend ostream& operator<<(ostream& os, const InTape&);
 };
 
 #endif

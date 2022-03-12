@@ -28,6 +28,8 @@ class OutTape: public Tape {
 
     //dumps the tape contents into the file
     int load();
+    
+    friend ostream& operator<<(ostream& os, const OutTape&);
 };
 
 #endif

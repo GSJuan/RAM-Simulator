@@ -40,48 +40,58 @@ Alcu::Alcu(string programFile, string inputFile, string outputFile, int debug) {
 
 Alcu::~Alcu() {}
 
+void Alcu::print() {
+  cout << endl << "Step " << getExecutedInstructions() << endl;
+  cout << "Instruction: " << getCurrInstruction();
+  cout << "Data Memory: \n" << getData();
+  cout << "Input Tape: " << getInTape();
+  cout << "Output Tape: " << getOutTape();
+  cout << "Description: ";
+}
+
 void Alcu::run() {
+  try {
+    while(currState != 1 && pi < program.getInstructionsSize()) {
+      
+      if(debugState == 2) {
+        print();
+      }
 
-  while(currState != 1 && pi < program.getInstructionsSize()) {
-    
-    if(debugState == 2) {
-      cout << endl << "Step " << getExecutedInstructions() << endl;
-      cout << "Instruction: " << getCurrInstruction();
-      cout << "Data Memory: " << getData();
-      cout << "Input Tape: " << getInTape();
-      cout << "Output Tape: " << getOutTape();
-      cout << "Description: ";
+      string type = currInst.getType();
+      
+      if(type == "READ") {
+        read();
+        updateInstruction();
+      } 
+      else if(type == "WRITE") {
+        write();
+        updateInstruction();
+      } 
+      else if(type == "LOAD") {  
+        load();
+        updateInstruction();
+      } 
+      else if(type== "STORE") {  
+        store();
+        updateInstruction();
+      }
+      else if(type == "MATH") {  
+        mathFramework();
+      }
+      else if(type == "JUMP") {
+        jumpFramework();
+      }
+      else if(type == "HALT") {  
+        halt(); 
+      }
     }
-
-    string type = currInst.getType();
-    
-    if(type == "READ") {
-      read();
-      updateInstruction();
-    } 
-    else if(type == "WRITE") {
-      write();
-      updateInstruction();
-    } 
-    else if(type == "LOAD") {  
-      load();
-      updateInstruction();
-    } 
-    else if(type== "STORE") {  
-      store();
-      updateInstruction();
-    }
-    else if(type == "MATH") {  
-      mathFramework();
-    }
-    else if(type == "JUMP") {
-      jumpFramework();
-    }
-    else if(type == "HALT") {  
-      halt(); 
-    }
+    outTape.load();
+  } catch(...) {
+    outTape.load();
+    cerr << "Fatal Error: some value was illegal. Curr state of the machine: " << endl;
+    print();
+    exit(2);
   }
-  outTape.load();
 }
 
 void Alcu::updateInstruction() {
@@ -343,7 +353,6 @@ void Alcu::printOutputTape() {
   }
   
   void Alcu::halt() {
-    executedInstructions++;
     cout << "Halt requested, stopping..." << endl;
     if(debugState > 0) {
       cout << endl << "Total executed instructions: " << executedInstructions << endl; 

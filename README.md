@@ -8,5 +8,5 @@ $ make
 
 # Execution: 
 ```bash
-$ ./simulator ejemplosRAM/test7.ram ejemplosRAM/input_tape4.in output_tape.out
+$ ./simulator ejemplosRAM/test7.ram ejemplosRAM/input_tape4.in output_tape.out debug
 ```

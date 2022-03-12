@@ -13,16 +13,16 @@
 #ifndef DATA_MEMORY_H
 #define DATA_MEMORY_H
 
-#include <vector>
-#include <iostream>
-#include "register.h"
+
+#include "int_register.h"
+#include "vector_register.h"
 
 using namespace std;
 
 
 class Data {
   private:
-    vector<Register> data;
+    vector<Register*> data;
     
   public:
     Data();

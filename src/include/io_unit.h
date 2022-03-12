@@ -17,6 +17,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 
 using namespace std;
 
@@ -34,6 +35,5 @@ class Tape {
     string getFileName();
     
     virtual int load() = 0;
-    friend ostream& operator<<(ostream& os, const Tape& dt);
 };
 #endif

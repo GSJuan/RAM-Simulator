@@ -36,6 +36,10 @@ int InTape::getIndex() {
   return index;
 }
 
+int InTape::getIndex() const{
+  return index;
+}
+
 int InTape::load() {
   ifstream inputFile;
   int value;
@@ -64,6 +68,13 @@ int InTape::readTape() {
 
 void InTape::moveHead() {
   index++;
+}
+
+ostream& operator<<(ostream& os, const InTape& inputUnit) {
+  os << "[";
+  copy(inputUnit.tape.begin(), inputUnit.tape.end(), ostream_iterator<int>(os, "|"));
+  os << "] with head at position " <<  inputUnit.getIndex() << endl;
+  return os;
 }
 
 #endif

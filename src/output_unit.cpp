@@ -49,4 +49,11 @@ int OutTape::load() {
   outputFile.close();
   return 0;
 }
+
+ostream& operator<<(ostream& os, const OutTape& outputUnit) {
+  os << "[";
+  copy(outputUnit.tape.begin(), outputUnit.tape.end(), ostream_iterator<int>(os, "|"));
+  os << "]" << endl;
+  return os;
+}
 #endif
