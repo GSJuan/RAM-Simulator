@@ -8,7 +8,7 @@
         "type": "cppdbg",
         "request": "launch",
         "program": "${workspaceFolder}/simulator.exe",
-        "args": ["ejemplosRAM/modi.ram", "ejemplosRAM/input_tape4.in", "output_tape.out", "2"],
+        "args": ["ejemplosRAM/vector.ram", "ejemplosRAM/input_tape4.in", "output_tape.out", "2"],
         "environment": [],
         "cwd": "${workspaceFolder}"
         }

@@ -280,14 +280,24 @@ void Alcu::printOutputTape() {
 
   void Alcu::read() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
 
     int value = inTape.readTape();
     inTape.moveHead();
 
     if (mode == " ") {
-      data.write(value, op);
-      cout << "Reading value " << value << " from input tape to register R" << op << endl;
+      if(right.find('[') != std::string::npos && right[2] != '=') {
+        int pos = right[2];
+        pos -= 48;
+        data.write(value, op, pos);
+        cout << "Reading value " << value << " from input tape to register R" << op << " at position " << pos << endl;
+      }
+      else {
+        data.write(value, op);
+        cout << "Reading value " << value << " from input tape to register R " << op << endl;
+      }
     } 
     else if(mode == "*") {
       int reg = data.read(op);
@@ -299,13 +309,34 @@ void Alcu::printOutputTape() {
 
   void Alcu::write() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());  
-    
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
     
     if (mode == " ") {
-      int value = data.read(op);
-      outTape.write(value);
-      cout << "Writing value " << value << " to output tape from register R" << op << endl;
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int pos = right[2];
+          pos -= 48;
+          int value = data.read(op, pos);
+          outTape.write(value);
+          cout << "Writing value " << value << " to output tape from register R" << op << " at position " << pos << endl;
+        }
+         
+        else {
+          int pos = right[3];
+          pos -= 48;
+          int reg = data.read(op, pos);
+          int value = data.read(reg);
+          outTape.write(value);
+          cout << "Writing value " << value << " to output tape from register R" << reg << " found in R " << op << " at position " << pos << endl;
+        } 
+      }
+      else {
+        int value = data.read(op);
+        outTape.write(value);
+        cout << "Writing value " << value << " to output tape from register R" << op << endl;
+      }
     } 
     else if(mode == "=") {
       outTape.write(op);

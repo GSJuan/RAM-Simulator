@@ -19,13 +19,13 @@ using namespace std;
 
 Data::Data() {
   for(int i = 0; i <10; i++) {
-    data.push_back(new IntRegister());
+    data.push_back(new VectorRegister());
   }
 }
 
 Data::Data(int size) {
   for(int i = 0; i < size; i++) {
-    data.push_back(new IntRegister());
+    data.push_back(new VectorRegister());
   }
 } 
 
@@ -38,6 +38,11 @@ int Data::read(int reg) {
   return data[reg]->getValue();
 }
 
+int Data::read(int reg, int pos) {
+  allocate(reg);
+  return data[reg]->getValue(pos);
+}
+
 int Data::readAccumulator(){
   return data[0]->getValue();
 }
@@ -47,6 +52,11 @@ void Data::write(int value, int reg){
   data[reg]->setValue(value);
 }
 
+void Data::write(int value, int reg, int pos){
+  allocate(reg);
+  data[reg]->setValue(pos, value);
+}
+
 void Data::writeAccumulator(int value){
   data[0]->setValue(value);
 }
@@ -54,7 +64,7 @@ void Data::writeAccumulator(int value){
 void Data::allocate(int value) {
   if(data.size() - 1 < value) {
     for(int i = data.size() - 1; i <= value; i++) {
-      data.push_back(new IntRegister());
+      data.push_back(new VectorRegister());
     }
   }
 }

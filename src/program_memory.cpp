@@ -70,7 +70,7 @@ int Program::loadProgram() {
         relLineNumber++; //aumentamos el indice de lineas del programa
 
         string instruction  = parseTag(line, absLineNumber, relLineNumber); //parseamos la tag si existe y almacenamos la instrucción
-
+        
         parseInstruction(instruction); //parseamos la instrucción y la almacenamos en el programa
       } 
     }
@@ -127,10 +127,10 @@ bool Program::existingTag(string tag) {
 void Program::parseInstruction(string instruction) {
 
   string mode = " "; //modo directo por defecto
-  
-  //eliminamos todos los espacios a la izquierda de la instruccion
+
   size_t  lPos = instruction.find_first_not_of(" \n\r\t\f\v"); 
   instruction = instruction.substr(lPos != std::string::npos ? lPos : 0);
+
 
   //separamos la instruccion por partes y pasamos la operación a mayúsculas por convenio
   string operation = instruction.substr(0, instruction.find_first_of(' '));
@@ -144,6 +144,7 @@ void Program::parseInstruction(string instruction) {
     mode = op[0];
     op = op.substr(1);
   }
+
 
   string type = " ";
   if(operation == "JUMP" || operation == "JZERO" || operation == "JGTZ" ) {
@@ -211,7 +212,7 @@ ostream& operator<<(ostream& os, const Program& program) {
   int tagIndex = 0;
   for(int i = 0; i < program.instructions.size(); i++) {
     os << "\t";
-    if(program.tags[tagIndex].getRelLine() == i) {
+    if((program.tags.size() > 0) && (program.tags[tagIndex].getRelLine() == i)) {
       os << program.tags[tagIndex] << ":";
       tagIndex++;
     }

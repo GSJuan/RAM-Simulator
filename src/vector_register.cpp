@@ -63,11 +63,25 @@
     return true;  
   }
 
+  bool VectorRegister::isEmpty() {
+    if(!value.empty()) {
+      for(int i = 0; i < value.size(); i++) {
+        if(value[i] != EMPTY) return false;
+      }
+    }
+    return true;  
+  }
+
   void VectorRegister::print() const{
     if(isEmpty()) {
       cout << "EMPTY";
     } else {
-      std::copy(value.begin(), value.end(),std::ostream_iterator<int>(std::cout, ", "));
+      for(int i = 0; i < value.size(); i++) {
+        if(value[i] == EMPTY) {
+          cout << "EMPTY, ";
+        }
+        else cout << value[i] << ", ";
+      }
     } 
   }
 #endif

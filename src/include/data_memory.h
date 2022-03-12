@@ -22,7 +22,7 @@ using namespace std;
 
 class Data {
   private:
-    vector<Register*> data;
+    vector<VectorRegister*> data;
     
   public:
     Data();
@@ -30,9 +30,11 @@ class Data {
     ~Data();
 
     int read(int reg);
+    int read(int reg, int pos);
     int readAccumulator();
 
     void write(int value, int reg);
+    void write(int value, int reg, int pos);
     void writeAccumulator(int value);
 
     void allocate (int);

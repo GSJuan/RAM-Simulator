@@ -28,10 +28,12 @@
 
   int IntRegister::getValue() {
     return value; 
-   }
+  }
+
   void IntRegister::setValue(int newVal) {
     value = newVal; 
   }
+  
   bool IntRegister::isEmpty() {
     return value == EMPTY; 
   }
@@ -44,7 +46,7 @@
     return value == EMPTY; 
   }
 
-  void IntRegister::print() {
+  void IntRegister::print() const{
     if(isEmpty()) {
       cout << "EMPTY";
     } else cout << getValue(); 

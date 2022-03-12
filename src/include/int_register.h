@@ -33,7 +33,7 @@ class IntRegister: public Register {
 
       int getValue() const;
       bool isEmpty() const;
-      void print();
+      void print() const;
 };
 
 #endif

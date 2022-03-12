@@ -21,5 +21,6 @@ int main(int argc, char * argv[]) {
   cout << "Debug Mode: " << debug << endl;
   Alcu ram(programFile, inputTape, outputTape, debug);
   ram.run();
+
   return 0;
 }

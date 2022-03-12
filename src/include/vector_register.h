@@ -40,6 +40,7 @@ class VectorRegister: public Register {
       void setValue(int position, int newValue);
 
       bool isEmpty() const;
+      bool isEmpty() ;
       void print() const;
 };
 
