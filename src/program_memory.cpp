@@ -55,7 +55,7 @@ int Program::getTagRelativePosition(string tag) {
 
 int Program::loadProgram() {
 
-  ifstream file; //fichero
+  ifstream file; 
   int absLineNumber = -1;
   int relLineNumber = -1;
   string line; // linea del fichero
@@ -144,9 +144,18 @@ void Program::parseInstruction(string instruction) {
     mode = op[0];
     op = op.substr(1);
   }
+
+  string type = " ";
+  if(operation == "JUMP" || operation == "JZERO" || operation == "JGTZ" ) {
+    type = "JUMP";
+  }
+  else if(operation == "ADD" || operation == "SUB" || operation == "MUL" || operation == "DIV") {
+    type = "MATH";
+  }
+  else type = operation;
     
   //almacenamos la instrucción
-  instructions.push_back(Instruction(operation, mode, op));
+  instructions.push_back(Instruction(operation, mode, op, type));
 }
 
 
@@ -163,11 +172,24 @@ bool Program::validateInstruction(Instruction instruction) {
     return false;
   } 
   else if ((operation == "WRITE" || operation == "READ") && (mode == " ") && (op == "0")) {
-    cerr << endl << "ERROR: operarion " << operation << " does not suport direct access to R0 (acummulator)" <<endl;
+    cerr << endl << "ERROR: operation " << operation << " does not suport direct access to R0 (acummulator)" <<endl;
     return false;
   } 
   else if((operation == "HALT") && (!op.empty())) {
     cerr << endl   << "ERROR: HALT must called alone" <<endl;
+    return false;
+  }
+  else if(!existingOperation(operation)) {
+    cerr << endl   << "ERROR: operation " << operation << "is not defined in the instructions set." << endl;
+    return false;
+  }
+  else return true;
+}
+
+bool Program::existingOperation(string operation) {
+  if((operation != "LOAD") && (operation != "STORE") && (operation != "READ") && (operation != "WRITE") &&
+  (operation != "ADD") && (operation != "SUB") && (operation != "MUL") && (operation != "DIV") &&
+  (operation != "JUMP") && (operation != "JZERO")&&(operation != "JGTZ") && (operation != "HALT")) {
     return false;
   }
   else return true;

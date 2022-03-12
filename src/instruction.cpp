@@ -20,12 +20,14 @@ Instruction::Instruction() {
   opcode = "ADD";
   mode = NULL_VALUE;
   op = "0";
+  type = "MATH";
 }
 
-Instruction::Instruction(string opcode_, string mode_, string op_) {
+Instruction::Instruction(string opcode_, string mode_, string op_, string type_) {
   opcode = opcode_;
   mode = mode_;
   op = op_;
+  type = type_;
 }
 
 Instruction::~Instruction() {
@@ -46,6 +48,11 @@ string Instruction::getOp() {
   return op;
 }
 
+string Instruction::getType() {
+  return type;
+}
+
+
 string Instruction::getOpcode() const{
   return opcode;
 }
@@ -56,6 +63,10 @@ string Instruction::getMode() const{
 
 string Instruction::getOp() const{
   return op;
+}
+
+string Instruction::getType() const{
+  return type;
 }
 
 void Instruction::modify(Instruction new_instruction) {

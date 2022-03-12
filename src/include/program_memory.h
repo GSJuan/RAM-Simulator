@@ -74,6 +74,8 @@ class Program {
   //return true if valid, false otherwise
   bool validateInstruction(Instruction);
 
+  bool existingOperation(string);
+
   //validates all the instructions that compose the program
   //return true if valid, false otherwise
   bool validateProgram();

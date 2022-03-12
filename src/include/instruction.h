@@ -21,27 +21,30 @@ using namespace std;
 #define NULL_VALUE "null";
 
 class Instruction {
-    private:
-      string opcode; // LOAD || ...
-      string mode; // * || = || " "
-      string op; // [0-9]+ 
-    
-    public:
-      Instruction();
-      Instruction(string opcode, string mode, string op);
-      ~Instruction();
+  private:
+    string opcode; // LOAD || ...
+    string mode; // * || = || " "
+    string op; // [0-9]+ 
+    string type; //JUMP, MATH,
+  
+  public:
+    Instruction();
+    Instruction(string opcode, string mode, string op, string type);
+    ~Instruction();
 
-      string getOpcode();
-      string getMode();
-      string getOp();
+    string getOpcode();
+    string getMode();
+    string getOp();
+    string getType();
 
-      string getOpcode() const;
-      string getMode() const;
-      string getOp() const;
+    string getOpcode() const;
+    string getMode() const;
+    string getOp() const;
+    string getType() const;
 
-      void modify(Instruction new_instruction);
+    void modify(Instruction new_instruction);
 
-      friend ostream& operator<<(ostream& os, const Instruction& dt);
+    friend ostream& operator<<(ostream& os, const Instruction& dt);
 };
 
 #endif

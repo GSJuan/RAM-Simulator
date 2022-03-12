@@ -23,15 +23,19 @@ Alcu::Alcu() {
   currState = 0;
   pi = 0;
   currInst = program.getInstruction(pi);  
+  debugState = 0;
+  executedInstructions = 1;
 }
 
-Alcu::Alcu(string programFile, string inputFile, string outputFile) {
+Alcu::Alcu(string programFile, string inputFile, string outputFile, int debug) {
   program = Program(programFile);
   inTape = InTape(inputFile);
   outTape = OutTape(outputFile);  
   currState = 0;
   pi = 0;
   currInst = program.getInstruction(pi);  
+  debugState = debug;
+  executedInstructions = 1;
 }
 
 Alcu::~Alcu() {}
@@ -40,51 +44,42 @@ void Alcu::run() {
 
   while(currState != 1 && pi < program.getInstructionsSize()) {
     
-    string operation = currInst.getOpcode();
+    if(debugState == 2) {
+      cout << endl << "Step " << getExecutedInstructions() << endl;
+      cout << "Instruction: " << getCurrInstruction();
+      cout << "Data Memory: " << getData();
+      cout << "Input Tape: " << getInTape();
+      cout << "Output Tape: " << getOutTape();
+      cout << "Description: ";
+    }
+
+    string type = currInst.getType();
     
-    if(operation == "READ") {
+    if(type == "READ") {
       read();
       updateInstruction();
     } 
-    else if(operation == "WRITE") {
+    else if(type == "WRITE") {
       write();
       updateInstruction();
     } 
-    else if(operation == "LOAD") {  
+    else if(type == "LOAD") {  
       load();
       updateInstruction();
     } 
-    else if(operation == "STORE") {  
+    else if(type== "STORE") {  
       store();
       updateInstruction();
     }
-    else if(operation == "ADD") {  
-      add();
-      updateInstruction();
+    else if(type == "MATH") {  
+      mathFramework();
     }
-    else if(operation == "SUB") {  
-      sub();
-      updateInstruction();
+    else if(type == "JUMP") {
+      jumpFramework();
     }
-    else if(operation == "MUL") {  
-      mul();
-      updateInstruction();
-    }
-    else if(operation == "DIV") {  
-      div();
-      updateInstruction();
-    }  
-    else if(operation == "JUMP") {
-      jump();
-    } 
-    else if(operation == "JZERO") {
-      jzero();
-    } 
-    else if(operation == "HALT") {  
+    else if(type == "HALT") {  
       halt(); 
     }
-    
-    
   }
   outTape.load();
 }
@@ -92,11 +87,13 @@ void Alcu::run() {
 void Alcu::updateInstruction() {
   pi++;
   currInst = program.getInstruction(pi);
+  executedInstructions++;
 }
 
 void Alcu::updateInstruction(int ip) {
   pi = ip;
   currInst = program.getInstruction(pi);
+  executedInstructions++;
 }
 
 void Alcu::printCurrentInstruction() {
@@ -121,7 +118,6 @@ void Alcu::printOutputTape() {
 
 
   void Alcu::load() {
-    
     string mode = currInst.getMode();
     int op = atoi(currInst.getOp().c_str());
 
@@ -138,15 +134,14 @@ void Alcu::printOutputTape() {
       int reg = data.read(op);
       int value = data.read(reg);
       data.writeAccumulator(data.read(reg));
-
       cout << "Loaded " << value << " from register R" << reg << " obtained from register R" << op << " into accumulator" << endl;
-
     }
   }
 
   void Alcu::store() {
     string mode = currInst.getMode();
     int op = atoi(currInst.getOp().c_str());
+
     if (mode == " ") {
       int value = data.readAccumulator();
       data.write(value, op);
@@ -155,13 +150,26 @@ void Alcu::printOutputTape() {
     else if ( mode == "*") {
       int reg = data.read(op);
       int value = data.readAccumulator();
-
       data.write(value, reg);
-
       cout << "Loaded " << value << " from accumulator into R" << reg << " obtained from register R" << op << endl;
-
     }
+  }
 
+  void Alcu::mathFramework() {
+    string operation = currInst.getOpcode();
+    if(operation == "ADD") {  
+      add();
+    }
+    else if(operation == "SUB") {  
+      sub();
+    }
+    else if(operation == "MUL") {  
+      mul();
+    }
+    else if(operation == "DIV") {  
+      div();
+    }  
+    updateInstruction();
   }
 
   void Alcu::add() {
@@ -173,18 +181,19 @@ void Alcu::printOutputTape() {
       int value2 = data.read(op);
       data.writeAccumulator(value + value2);
       cout << "Loaded " << value << " + " << value2 << " into accumulator" << endl;
-    } else if( mode == "=") {
+    } 
+    else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value + op);
       cout << "Loaded " << value << " + " << op << " into accumulator" << endl;
-    } else if(mode == "*") {
+    } 
+    else if(mode == "*") {
       int value = data.readAccumulator();
       int reg = data.read(op);
       int value2 = data.read(reg);
       data.writeAccumulator(value + value2);
       cout << "Loaded " << value << " + " << value2 << " from register R" << reg <<  " into accumulator" << endl;
     }
-
   }
 
   void Alcu::sub() {
@@ -196,11 +205,13 @@ void Alcu::printOutputTape() {
       int value2 = data.read(op);
       data.writeAccumulator(value - value2);
       cout << "Loaded " << value << " - " << value2 << " into accumulator" << endl;
-    } else if( mode == "=") {
+    } 
+    else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value - op);
       cout << "Loaded " << value << " - " << op << " into accumulator" << endl;
-    } else if(mode == "*") {
+    } 
+    else if(mode == "*") {
       int value = data.readAccumulator();
       int reg = data.read(op);
       int value2 = data.read(reg);
@@ -218,11 +229,13 @@ void Alcu::printOutputTape() {
       int value2 = data.read(op);
       data.writeAccumulator(value * value2);
       cout << "Loaded " << value << " * " << value2 << " into accumulator" << endl;
-    } else if( mode == "=") {
+    } 
+    else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value * op);
       cout << "Loaded " << value << " * " << op << " into accumulator" << endl;
-    } else if(mode == "*") {
+    } 
+    else if(mode == "*") {
       int value = data.readAccumulator();
       int reg = data.read(op);
       int value2 = data.read(reg);
@@ -240,11 +253,13 @@ void Alcu::printOutputTape() {
       int value2 = data.read(op);
       data.writeAccumulator(value / value2);
       cout << "Loaded " << value << " / " << value2 << " into accumulator" << endl;
-    } else if( mode == "=") {
+    } 
+    else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value / op);
       cout << "Loaded " << value << " / " << op << " into accumulator" << endl;
-    } else if(mode == "*") {
+    } 
+    else if(mode == "*") {
       int value = data.readAccumulator();
       int reg = data.read(op);
       int value2 = data.read(reg);
@@ -263,7 +278,8 @@ void Alcu::printOutputTape() {
     if (mode == " ") {
       data.write(value, op);
       cout << "Reading value " << value << " from input tape to register R" << op << endl;
-    } else if(mode == "*") {
+    } 
+    else if(mode == "*") {
       int reg = data.read(op);
       data.write(value, reg);
       cout << "Reading value " << value << " from input tape to register R" << reg << " found in register R" << op << endl;
@@ -294,6 +310,19 @@ void Alcu::printOutputTape() {
 
   }
 
+  void Alcu::jumpFramework() {
+    string operation = currInst.getOpcode();
+    if(operation == "JUMP") {
+      jump();
+    } 
+    else if(operation == "JZERO") {
+      jzero();
+    }
+    else if(operation == "JGTZ") {
+      jgtz();
+    }
+  }
+
   void Alcu::jump() {
     string tag = currInst.getOp();
     cout << "Jumped from line " << pi;
@@ -314,8 +343,21 @@ void Alcu::printOutputTape() {
   }
   
   void Alcu::halt() {
+    executedInstructions++;
     cout << "Halt requested, stopping..." << endl;
+    if(debugState > 0) {
+      cout << endl << "Total executed instructions: " << executedInstructions << endl; 
+    }
     currState = 1;
   }
+
+ostream& operator<<(ostream& os, const Alcu& dt) {
+  os << "Step " << dt.getExecutedInstructions() << endl;
+  os << "Instruction: " << dt.getCurrInstruction() << endl;
+  os << "Data Memory: " << dt.getData() << endl;
+  os << "Input Tape: " << dt.getInTape();
+  os << "Output Tape: " << dt.getOutTape();
+  return os;
+}
 
 #endif

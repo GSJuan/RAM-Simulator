@@ -27,20 +27,30 @@ class Alcu {
     int currState; //0 halt, 1 working, 2 error
     Instruction currInst;
     int pi; //curren intstruction index
+    int debugState;
+    int executedInstructions;
   
   public:
     Alcu();
-    Alcu(string programFile, string inputFile, string outputFile);
+    Alcu(string programFile, string inputFile, string outputFile, int debug);
     ~Alcu();
 
     Program getProgram() { return program; }
     Data getData() { return data; }
     InTape getInTape() { return inTape; }
     OutTape getOutTape() { return outTape; }
+    Instruction getCurrInstruction() { return currInst; }
+    int getExecutedInstructions() {return executedInstructions; }
+
+    Program getProgram() const{ return program; }
+    Data getData() const{ return data; }
+    InTape getInTape() const{ return inTape; }
+    OutTape getOutTape() const{ return outTape; }
+    Instruction getCurrInstruction() const{ return currInst; }
+    int getExecutedInstructions() const{ return executedInstructions; }
 
     void updateInstruction();
     void updateInstruction(int ip);
-
 
     void run();
     void printCurrentInstruction();
@@ -61,6 +71,9 @@ class Alcu {
     void jzero();
     void jgtz();
     void halt();
+
+    void mathFramework();
+    void jumpFramework();
 
   friend ostream& operator<<(ostream& os, const Alcu& dt);
 };
