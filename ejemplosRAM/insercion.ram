@@ -69,5 +69,5 @@ escritura: load 7
            add =1
            store 7
            jump escritura
-end: halt 
+end: halt
 

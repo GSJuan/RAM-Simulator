@@ -1,0 +1,74 @@
+#R1 tiene el contador del for1 i
+#R2 tiene el contador del for2 j
+#R3 almacena temp 
+#R4 almacena el vector
+#R5 almacena el indice del vector al cargarlo (al final, queda el tamaño del mismo)
+#R6 almacena de forma temporal cada elemento de el vector de entrada y j-1
+
+load =0
+store 5
+
+carga:  read 6
+        load 6
+        jzero fincarga
+        store 4[5]
+        load 5
+        add =1
+        store 5
+        jump carga
+
+fincarga:  load =0
+           store 1
+
+for1: load 5
+      sub =1
+      sub 1
+      jzero endfor1
+      
+      load 5
+      sub =1
+      store 2
+for2: load 1
+      sub 2
+      jzero endfor2
+      
+if:   load 2
+      sub =1
+      store 6
+
+      load 4[2]
+      sub 4[6]
+      jgtz endif
+      jzero endif
+
+      load 4[6]
+      store 3
+
+      load 4[2]
+      store 4[6]
+
+      load 3
+      store 4[2]
+
+endif: load 2
+       sub =1
+       store 2
+       jump for2
+
+endfor2: load 1
+         add =1
+         store 1
+         jump for1
+
+endfor1:   load =0
+           store 7
+
+escritura: load 7
+           sub 5
+           jzero end
+           write 4[7]
+           load 7
+           add =1
+           store 7
+           jump escritura
+end: halt
