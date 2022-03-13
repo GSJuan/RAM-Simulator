@@ -129,12 +129,35 @@ void Alcu::printOutputTape() {
 
   void Alcu::load() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
+
 
     if (mode == " ") {
-      int value = data.read(op);
-      data.writeAccumulator(value);
-      cout << "Loaded " << value << " from register R" << op << " into accumulator" << endl;
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          int value = data.read(op, pos);
+          data.writeAccumulator(value);
+          cout << "Loaded " << value << " from register R" << op << " at position " << pos << " found in R" << reg << " into accumulator" << endl;
+        }
+        else  {
+          int pos = right[3];
+          pos -= 48;
+          int value = data.read(op, pos);
+          data.writeAccumulator(value);
+          cout << "Loaded " << value << " from register R" << op << " at position " << pos << " into accumulator" << endl;
+        }
+      }
+      else {
+        int value = data.read(op);
+        data.writeAccumulator(value);
+        cout << "Loaded " << value << " from register R" << op << " into accumulator" << endl;
+      }
+      
     } 
     else if (mode == "=") {
       data.writeAccumulator(op);
@@ -150,12 +173,33 @@ void Alcu::printOutputTape() {
 
   void Alcu::store() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
 
     if (mode == " ") {
-      int value = data.readAccumulator();
-      data.write(value, op);
-      cout << "Loaded " << value << " from accumulator into register R" << op << endl;
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          int value = data.readAccumulator();
+          data.write(value, op, pos);
+          cout << "Loaded " << value << " from accumulator into register R" << op << " at position " << pos << " found in R" << reg << endl;
+        }
+        else {
+          int pos = right[3];
+          pos -= 48;
+          int value = data.readAccumulator();
+          data.write(value, op, pos);
+          cout << "Loaded " << value << " from accumulator into register R" << op << " at position " << pos << endl;
+        }
+      }
+      else {
+       int value = data.readAccumulator();
+        data.write(value, op);
+        cout << "Loaded " << value << " from accumulator into register R" << op << endl; 
+      }
     } 
     else if ( mode == "*") {
       int reg = data.read(op);
@@ -184,14 +228,38 @@ void Alcu::printOutputTape() {
 
   void Alcu::add() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
+
 
     if (mode == " ") {
-      int value = data.readAccumulator();
-      int value2 = data.read(op);
-      data.writeAccumulator(value + value2);
-      cout << "Loaded " << value << " + " << value2 << " into accumulator" << endl;
-    } 
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value + value2);
+          cout << "Loaded " << value << " + " << value2 << " into accumulator" << " from R" << op << " at position " << pos << " found in R" << reg << endl;
+        }
+        else {
+          int pos = right[3];
+          pos -= 48;
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value + value2);
+          cout << "Loaded " << value << " + " << value2 << " into accumulator" << " from R" << op << " at position " << pos << endl;
+        }
+      }
+      else{
+        int value = data.readAccumulator();
+        int value2 = data.read(op);
+        data.writeAccumulator(value + value2);
+        cout << "Loaded " << value << " + " << value2 << " into accumulator" << endl;
+      }
+    }
     else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value + op);
@@ -208,13 +276,37 @@ void Alcu::printOutputTape() {
 
   void Alcu::sub() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
+
 
     if (mode == " ") {
-      int value = data.readAccumulator();
-      int value2 = data.read(op);
-      data.writeAccumulator(value - value2);
-      cout << "Loaded " << value << " - " << value2 << " into accumulator" << endl;
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value - value2);
+          cout << "Loaded " << value << " - " << value2 << " into accumulator" << " from R" << op << " at position " << pos << " found in R" << reg << endl;
+        }
+        else {
+          int pos = right[3];
+          pos -= 48;
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value - value2);
+          cout << "Loaded " << value << " - " << value2 << " into accumulator" << " from R" << op << " at position " << pos << endl;
+        }
+      }
+      else {
+        int value = data.readAccumulator();
+        int value2 = data.read(op);
+        data.writeAccumulator(value - value2);
+        cout << "Loaded " << value << " - " << value2 << " into accumulator" << endl;
+      }
     } 
     else if( mode == "=") {
       int value = data.readAccumulator();
@@ -232,14 +324,38 @@ void Alcu::printOutputTape() {
 
   void Alcu::mul() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
+
 
     if (mode == " ") {
-      int value = data.readAccumulator();
-      int value2 = data.read(op);
-      data.writeAccumulator(value * value2);
-      cout << "Loaded " << value << " * " << value2 << " into accumulator" << endl;
-    } 
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value * value2);
+          cout << "Loaded " << value << " * " << value2 << " into accumulator" << " from R" << op << " at position " << pos << " found in R" << reg << endl;
+        }
+        else {
+          int pos = right[3];
+          pos -= 48;
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value * value2);
+          cout << "Loaded " << value << " * " << value2 << " into accumulator" << " from R" << op << " at position " << pos << endl;
+        }
+      }
+      else {
+        int value = data.readAccumulator();
+        int value2 = data.read(op);
+        data.writeAccumulator(value * value2);
+        cout << "Loaded " << value << " * " << value2 << " into accumulator" << endl;
+      }
+    }  
     else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value * op);
@@ -256,14 +372,38 @@ void Alcu::printOutputTape() {
 
   void Alcu::div() {
     string mode = currInst.getMode();
-    int op = atoi(currInst.getOp().c_str());
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
+
 
     if (mode == " ") {
-      int value = data.readAccumulator();
-      int value2 = data.read(op);
-      data.writeAccumulator(value / value2);
-      cout << "Loaded " << value << " / " << value2 << " into accumulator" << endl;
-    } 
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value / value2);
+          cout << "Loaded " << value << " / " << value2 << " into accumulator" << " from R" << op << " at position " << pos << " found in R" << reg << endl;
+        }
+        else {
+          int pos = right[3];
+          pos -= 48;
+          int value = data.readAccumulator();
+          int value2 = data.read(op, pos);
+          data.writeAccumulator(value / value2);
+          cout << "Loaded " << value << " / " << value2 << " into accumulator" << " from R" << op << " at position " << pos << endl;
+        }
+      }
+      else {
+        int value = data.readAccumulator();
+        int value2 = data.read(op);
+        data.writeAccumulator(value / value2);
+        cout << "Loaded " << value << " / " << value2 << " into accumulator" << endl;
+      }
+    }
     else if( mode == "=") {
       int value = data.readAccumulator();
       data.writeAccumulator(value / op);
@@ -322,7 +462,6 @@ void Alcu::printOutputTape() {
           outTape.write(value);
           cout << "Writing value " << value << " to output tape from register R" << op << " at position " << pos << endl;
         }
-         
         else {
           int pos = right[3];
           pos -= 48;
