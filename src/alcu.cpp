@@ -428,11 +428,20 @@ void Alcu::printOutputTape() {
     inTape.moveHead();
 
     if (mode == " ") {
-      if(right.find('[') != std::string::npos && right[2] != '=') {
-        int pos = right[2];
-        pos -= 48;
-        data.write(value, op, pos);
-        cout << "Reading value " << value << " from input tape to register R" << op << " at position " << pos << endl;
+      if(right.find('[') != std::string::npos) {
+        if(right[2] != '=') {
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
+          data.write(value, op, pos);
+          cout << "Reading value " << value << " from input tape to register R" << op << " at position " << pos << " found in R" << reg << endl;
+        }
+        else {
+          int pos = right[3];
+          pos -= 48;
+          data.write(value, op, pos);
+          cout << "Reading value " << value << " from input tape to register R" << op << " at position " << pos << endl;
+        }
       }
       else {
         data.write(value, op);
@@ -456,19 +465,19 @@ void Alcu::printOutputTape() {
     if (mode == " ") {
       if(right.find('[') != std::string::npos) {
         if(right[2] != '=') {
-          int pos = right[2];
-          pos -= 48;
+          int reg = right[2];
+          reg -= 48;
+          int pos = data.read(reg);
           int value = data.read(op, pos);
           outTape.write(value);
-          cout << "Writing value " << value << " to output tape from register R" << op << " at position " << pos << endl;
+          cout << "Writing value " << value << " to output tape from register R" << reg << " found in R " << op << " at position " << pos << endl;
         }
         else {
           int pos = right[3];
           pos -= 48;
-          int reg = data.read(op, pos);
-          int value = data.read(reg);
+          int value = data.read(op, pos);
           outTape.write(value);
-          cout << "Writing value " << value << " to output tape from register R" << reg << " found in R " << op << " at position " << pos << endl;
+          cout << "Writing value " << value << " to output tape from register R" << op << " at position " << pos << endl;
         } 
       }
       else {

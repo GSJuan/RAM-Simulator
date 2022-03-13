@@ -1,0 +1,73 @@
+#R1 tiene el contador del for
+#R2 almacena la clave
+#R3 almacena la i
+#R4 almacena el vector
+#R5 almacena el indice del vector al cargarlo (al final, queda el tamaño del mismo)
+#R6 almacena de forma temporal cada elemento de el vector de entrada ademas del valor de i+1
+
+load =0
+store 5
+
+carga:  read 6
+        load 6
+        jzero fincarga
+        store 4[5]
+        load 5
+        add =1
+        store 5
+        jump carga
+
+fincarga:  load =1
+        store 1
+
+for:  load 5
+    sub 1
+    jzero endfor
+
+    load 4[1]
+    store 2
+    load 1
+    sub =1
+    store 3
+
+while: add =1 
+    jzero endwhile
+    load 2
+    sub 4[3]
+    jgtz endwhile
+    jzero endwhile
+
+    load 3
+    add =1
+    store 6 
+    load 4[3]
+    store 4[6]
+    load 3
+    sub =1
+    store 3
+    jump while
+
+endwhile: load 3
+    add =1
+    store 6
+    load 2
+    store 4[6]
+
+    load 1
+    add =1
+    store 1
+    jump for
+
+endfor: load =0
+        store 7
+
+escritura: load 7
+           sub 5
+           jzero end
+           write 4[7]
+           load 7
+           add =1
+           store 7
+           jump escritura
+end: halt 
+
