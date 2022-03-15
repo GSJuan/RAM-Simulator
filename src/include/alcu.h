@@ -73,6 +73,7 @@ class Alcu {
     void jzero();
     void jgtz();
     void halt();
+    void addv();
 
     void mathFramework();
     void jumpFramework();

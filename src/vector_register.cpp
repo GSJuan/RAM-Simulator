@@ -38,6 +38,24 @@
     return value[0]; 
   }
 
+  int VectorRegister::getSize() {
+    int realSize = 0;
+    for (int i = 0; i < value.size(); i++) {
+      if(value[i] == EMPTY) break;
+      realSize++;
+    }  
+    return realSize;
+  }
+
+  int VectorRegister::getSize() const{
+    int realSize = 0;
+    for (int i = 0; i < value.size(); i++) {
+      if(value[i] == EMPTY) break;
+      realSize++;
+    }  
+    return realSize;
+  }
+
   int VectorRegister::getValue(int position) {
     return value[position]; 
   }

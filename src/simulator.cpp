@@ -8,7 +8,7 @@
  * date: 05/03/2022
  * description: Main file
  * 
- * Execution: $ ./simulator ejemplosRAM/insertion.ram ejemplosRAM/input_tape4.in output_tape.out 1
+ * Execution: $ ./simulator ejemplosRAM/insercion.ram ejemplosRAM/input_tape4.in output_tape.out 1
  *
  */
 #include "include/alcu.h"

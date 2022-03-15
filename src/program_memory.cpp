@@ -150,7 +150,7 @@ void Program::parseInstruction(string instruction) {
   if(operation == "JUMP" || operation == "JZERO" || operation == "JGTZ" ) {
     type = "JUMP";
   }
-  else if(operation == "ADD" || operation == "SUB" || operation == "MUL" || operation == "DIV") {
+  else if(operation == "ADD" || operation == "SUB" || operation == "MUL" || operation == "DIV" || operation == "ADDV") {
     type = "MATH";
   }
   else type = operation;
@@ -190,7 +190,7 @@ bool Program::validateInstruction(Instruction instruction) {
 bool Program::existingOperation(string operation) {
   if((operation != "LOAD") && (operation != "STORE") && (operation != "READ") && (operation != "WRITE") &&
   (operation != "ADD") && (operation != "SUB") && (operation != "MUL") && (operation != "DIV") &&
-  (operation != "JUMP") && (operation != "JZERO")&&(operation != "JGTZ") && (operation != "HALT")) {
+  (operation != "JUMP") && (operation != "JZERO")&&(operation != "JGTZ") && (operation != "HALT") && (operation != "ADDV")) {
     return false;
   }
   else return true;

@@ -222,9 +222,30 @@ void Alcu::printOutputTape() {
     }
     else if(operation == "DIV") {  
       div();
-    }  
+    }
+    else if(operation == "ADDV") {
+      addv();
+    }
     updateInstruction();
   }
+
+  void Alcu::addv() {
+    string mode = currInst.getMode();
+    string right = currInst.getOp();
+    int op = right[0];
+    op -= 48;
+
+    if (mode == " ") {
+      int value = 0;
+      int regSize = data.readRegSize(op);
+      for(int i = 0; i < regSize; i++) {
+        value += data.read(op, i);
+      }
+      data.writeAccumulator(value);
+      cout << "Loaded " << value << " into accumulator" << endl;
+    }
+  }
+
 
   void Alcu::add() {
     string mode = currInst.getMode();

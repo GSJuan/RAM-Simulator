@@ -32,6 +32,7 @@ class Data {
     int read(int reg);
     int read(int reg, int pos);
     int readAccumulator();
+    int readRegSize(int reg);
 
     void write(int value, int reg);
     void write(int value, int reg, int pos);

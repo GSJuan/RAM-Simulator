@@ -35,6 +35,8 @@ class VectorRegister: public Register {
       int getValue() const;
       int getValue(int);
       int getValue(int) const;
+      int getSize();
+      int getSize() const;
 
       void setValue(int newVal);
       void setValue(int position, int newValue);

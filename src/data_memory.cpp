@@ -47,6 +47,11 @@ int Data::readAccumulator(){
   return data[0]->getValue();
 }
 
+int Data::readRegSize(int reg) {
+  allocate(reg);
+  return data[reg]->getSize();
+}
+
 void Data::write(int value, int reg){
   allocate(reg);
   data[reg]->setValue(value);
